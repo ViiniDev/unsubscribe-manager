@@ -1,0 +1,35 @@
+# ===== Segredos e credenciais (NUNCA versionar) =====
+.env
+.env.*
+!.env.example
+client_secret*.json
+credentials*.json
+tokens/
+*.token
+*.p12
+*.jks
+*.pem
+*.key
+
+# ===== Java / Maven / Gradle =====
+target/
+build/
+.gradle/
+*.class
+*.log
+hs_err_pid*
+
+# ===== Node / Frontend =====
+node_modules/
+dist/
+
+# ===== IDEs e sistema operacional =====
+.idea/
+*.iml
+.vscode/
+.project
+.classpath
+.settings/
+.DS_Store
+Thumbs.db
+desktop.ini

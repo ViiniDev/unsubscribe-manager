@@ -1,73 +1,58 @@
-# Visão e Escopo do Projeto
+# Visão e escopo
 
-> Fase 01 — Discovery · Status: concluído · Data: 2026-11-24
+## A ideia em uma frase
 
-## Proposta de valor
+Um gerenciador de inscrições do Gmail que roda localmente, mostra o que cada lista de e-mail realmente envia e cancela em lote só o que é seguro, sem tocar em e-mails importantes.
 
-> Um gerenciador de inscrições do Gmail, **local e open source**, que mostra **o que cada lista realmente envia** e cancela em lote só o que é seguro, protegendo e-mails críticos e deixando decisões sensíveis com você.
+## Como deve funcionar
 
-## Visão
+O Unsubscribe Manager se conecta à conta do Gmail, encontra as listas de e-mail que chegam na caixa de entrada e mostra o que cada uma costuma enviar. A partir disso, dá para cancelar várias inscrições de uma vez com segurança. E-mails críticos ficam protegidos, e o resultado de cada cancelamento aparece no final, inclusive quando ele não deu certo.
 
-O Unsubscribe Manager é uma aplicação local que se conecta à conta Gmail do usuário, identifica as listas de e-mail recebidas, mostra o que cada uma envia e permite cancelar inscrições em lote com segurança. E-mails críticos ficam protegidos e o resultado de cada solicitação é reportado com transparência.
+O objetivo é resolver um problema que eu tenho no dia a dia e, no caminho, aprender mais sobre desenvolvimento back-end.
 
-**Objetivos:** resolver um problema real do autor e aprofundar o aprendizado em desenvolvimento back-end.
+## O que entra em cada versão
 
-## Escopo
+### v0.1: somente leitura
+- Conexão com o Gmail via OAuth 2.0, só com permissão de leitura de metadados.
+- Análise sob demanda, escolhendo um período ou um limite de mensagens.
+- Agrupamento por lista (`List-ID`). Quando o cabeçalho não existir, o agrupamento é feito de outra forma e a ferramenta indica o quanto confia nele.
+- Para cada inscrição: remetente, frequência, último envio, exemplos de assuntos e como cancelar.
+- Classificação em três grupos: pode cancelar, decisão do usuário e protegida.
+- Link para cancelar manualmente.
+- Opção de desconectar a conta e apagar os dados locais.
 
-### v0.1 — Somente leitura
-- Conexão com Gmail via OAuth 2.0, com escopo mínimo de leitura de metadados.
-- Análise sob demanda com período ou limite de mensagens.
-- Agrupamento por lista (`List-ID`), com fallback e grau de confiança.
-- Exibição de remetente, frequência, último envio, amostra de assuntos e método de cancelamento.
-- Classificação 🔴 elegível / 🟡 decisão manual / 🟢 protegida.
-- Links de cancelamento para ação manual.
-- Desconexão e limpeza de dados locais.
+### v0.2: cancelamento
+- Selecionar uma inscrição, várias ou todas as que podem ser canceladas.
+- Confirmar vendo exatamente o que vai ser cancelado.
+- Cancelamento automático apenas quando o remetente suporta o padrão RFC 8058 (one-click). Nos outros casos, a ferramenta mostra o link para cancelar à mão.
+- Resultado de cada cancelamento.
 
-### v0.2 — Cancelamento
-- Seleção individual, em lote ou de todas as elegíveis.
-- Confirmação com escopo exato.
-- Cancelamento automático **somente** via RFC 8058 (one-click); demais casos como ação manual.
-- Relatório de resultado por inscrição.
-
-### Evolução futura (sem compromisso de data)
-- Checagem semanal automática de novas inscrições.
-- Classificação do tipo de conteúdo (promocional / transacional / informativo).
+### Depois, sem data definida
+- Checagem semanal de inscrições novas.
+- Identificar o tipo de conteúdo de cada lista: promoção, mensagem transacional ou informativo.
 - Filtros, ordenação e histórico local.
-- Avaliação de **integração com IA** para classificação ou resumo de inscrições, condicionada a requisitos de privacidade (preferência por processamento local).
-- Outros provedores (ex.: Outlook) e múltiplas contas.
+- Avaliar o uso de IA para classificar ou resumir as inscrições, de preferência processando tudo localmente por causa da privacidade.
+- Outros provedores, como o Outlook, e mais de uma conta.
 
-### Fora do escopo
-- Visão geral da caixa por categoria (pessoal, faculdade etc.).
-- Versão mobile ou servidor publicado.
-- Excluir mensagens, criar filtros ou bloquear remetentes.
-- Contornar CAPTCHA, login ou formulários de cancelamento.
+### O que não faz parte do projeto
+- Organizar a caixa de entrada por categoria (pessoal, faculdade etc.).
+- Versão para celular ou servidor publicado na internet.
+- Apagar mensagens, criar filtros ou bloquear remetentes.
+- Passar por CAPTCHA, login ou formulários nas páginas de cancelamento.
 
-## Fatos e hipóteses
+## O que ainda preciso confirmar
 
-| ID | Fato | Fonte |
-|---|---|---|
-| F1 | ~10 e-mails indesejados por semana | Relato do autor (estimativa) |
-| F2 | E-mails importantes e de vagas se perdem | Relato do autor |
-| F3 | A maior dor do cancelamento manual é a repetição | Relato do autor |
-| F4 | Cancelamento manual pode exigir confirmação ou digitar o e-mail | Relato do autor |
-| F5 | O Gmail possui gerenciamento nativo de inscrições, agrupado por remetente | Documentação Google |
-| F6 | O recurso nativo exibe apenas o nome do remetente | Teste do autor |
-| F7 | Já existem ferramentas locais e open source similares | Pesquisa pública |
-| F8 | Etiquetar e-mails não elimina a origem | Relato do autor |
+O que já sei veio da minha própria caixa de entrada e da pesquisa de concorrentes (detalhes na [definição do problema](problem-statement.md) e na [pesquisa de concorrentes](market-research.md)). Algumas coisas ainda são hipóteses:
 
-| ID | Hipótese | Validação |
-|---|---|---|
-| H1 | Classificar e-mails pessoais/faculdade exigiria escopo OAuth mais amplo | Fase 03 |
-| H2 | Outras pessoas têm o mesmo problema | Não validada (limitação declarada) |
-| H3 | A amostra de conteúdo é diferencial frente a concorrentes pagos | Opcional |
-| H4 | `Subject` e `List-ID` estão disponíveis com o escopo `gmail.metadata` | Fase 03 |
-| H5 | Parte relevante das inscrições suporta RFC 8058 | Fase 03 |
+- **H1.** Classificar e-mails pessoais ou da faculdade exigiria uma permissão de OAuth maior do que a planejada. Vou verificar na prova de conceito.
+- **H2.** Outras pessoas têm o mesmo problema. Ainda não validei, e por enquanto o projeto parte da minha experiência.
+- **H3.** Mostrar exemplos do conteúdo de cada lista é um diferencial em relação às ferramentas pagas.
+- **H4.** Os cabeçalhos `Subject` e `List-ID` estão disponíveis com a permissão `gmail.metadata`. Vou verificar na prova de conceito.
+- **H5.** Uma parte relevante das inscrições suporta o RFC 8058. Também vou verificar na prova de conceito.
 
 ## Riscos
 
-| ID | Risco |
-|---|---|
-| R1 | Escopo OAuth restrito pode exigir verificação do Google para distribuição pública |
-| R2 | Remetentes podem ignorar solicitações de cancelamento |
-| R3 | Recurso nativo e concorrentes maduros reduzem o valor como produto |
-| R4 | Crescimento de escopo comprometer a conclusão do projeto |
+- **Verificação do Google:** a permissão de leitura do Gmail é considerada restrita. Para distribuir o app publicamente seria preciso passar pela verificação do Google. Como a ferramenta roda localmente, cada pessoa pode criar o próprio projeto no Google Cloud e usar o app em modo de teste.
+- **Remetentes que ignoram o cancelamento:** pedir o cancelamento não garante que ele aconteça. Por isso a ferramenta mostra o pedido como "solicitado", e não como "concluído".
+- **Concorrência:** o próprio Gmail e outras ferramentas já resolvem parte do problema, o que diminui o valor do projeto como produto.
+- **Escopo crescendo demais:** o maior risco para terminar o projeto é ir adicionando funcionalidades. Por isso as versões estão separadas.

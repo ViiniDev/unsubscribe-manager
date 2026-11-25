@@ -1,52 +1,67 @@
-# Especificação de Requisitos
+# Requisitos
 
-> Fase 02 — Requisitos · Status: em andamento · Data: 2026-11-24
->
-> Lista de RF e priorização MoSCoW definidas. Regras de negócio e critérios de aceitação (Given/When/Then) serão detalhados nas próximas tarefas.
+Esta é a lista de requisitos funcionais com as prioridades de cada um. As regras de negócio e os critérios de aceitação dos requisitos obrigatórios ainda vão ser escritos, antes de começar a implementação.
 
-## Priorização MoSCoW
+## Como priorizei
 
-- **Must:** obrigatório para a entrega indicada.
+Usei a técnica MoSCoW:
+
+- **Must:** obrigatório para a versão indicada.
 - **Should:** importante, mas o produto funciona sem.
-- **Could:** desejável.
-- **Won't:** fora do escopo atual.
+- **Could:** seria bom ter.
+- **Won't:** fora do escopo por enquanto.
 
 ## Requisitos funcionais
 
-| ID | Requisito | Prioridade | Entrega |
-|---|---|---|---|
-| RF01 | Conectar conta Gmail via OAuth 2.0 (somente leitura de metadados) | Must | v0.1 |
-| RF02 | Iniciar análise com período ou limite de mensagens configurável | Must | v0.1 |
-| RF03 | Ler cabeçalhos necessários e identificar inscrições candidatas | Must | v0.1 |
-| RF04 | Agrupar por identidade da lista (`List-ID`), com fallback e grau de confiança | Must | v0.1 |
-| RF05 | Exibir lista, remetente, frequência, último envio e método de cancelamento | Must | v0.1 |
-| RF14 | Exibir amostra dos últimos assuntos de cada inscrição | Must | v0.1 |
-| RF15 | Classificar inscrições em 🔴 elegível / 🟡 decisão manual / 🟢 protegida | Must | v0.1 |
-| RF16 | Exibir link de cancelamento para ação manual quando não houver RFC 8058 | Must | v0.1 |
-| RF10 | Desconectar a conta e limpar dados locais | Must | v0.1 |
-| RF06 | Selecionar individualmente, em lote ou todas as elegíveis | Must | v0.2 |
-| RF07 | Exibir confirmação com escopo exato antes de cancelar | Must | v0.2 |
-| RF08 | Solicitar cancelamento somente via RFC 8058 | Must | v0.2 |
-| RF09 | Registrar e exibir resultado por inscrição (solicitado / falhou / ação manual) | Must | v0.2 |
-| RF11 | Filtrar e ordenar inscrições | Could | Futuro |
-| RF12 | Histórico local de solicitações | Could | Futuro |
-| RF13 | Checagem semanal automática de novas inscrições | Could | Futuro |
-| RF17 | Classificar tipo de conteúdo (promocional / transacional / informativo) | Could | Futuro |
-| — | Visão por categoria, mobile, IA, exclusão/filtros, outros provedores | Won't | — |
+A numeração segue a ordem em que os requisitos foram levantados. A tabela está organizada por versão.
 
-## Requisitos não funcionais (candidatos)
+### v0.1
 
-> A detalhar com métricas somente após a prova de conceito (Fase 03).
+| ID | Requisito | Prioridade |
+|---|---|---|
+| RF01 | Conectar a conta do Gmail via OAuth 2.0, só com leitura de metadados | Must |
+| RF02 | Iniciar a análise escolhendo um período ou um limite de mensagens | Must |
+| RF03 | Ler os cabeçalhos necessários e identificar as inscrições | Must |
+| RF04 | Agrupar por lista (`List-ID`), com alternativa quando o cabeçalho não existir e indicação de confiança | Must |
+| RF05 | Mostrar lista, remetente, frequência, último envio e como cancelar | Must |
+| RF14 | Mostrar exemplos dos últimos assuntos de cada inscrição | Must |
+| RF15 | Classificar cada inscrição em: pode cancelar, decisão do usuário ou protegida | Must |
+| RF16 | Mostrar o link para cancelamento manual quando o remetente não suportar RFC 8058 | Must |
+| RF10 | Desconectar a conta e apagar os dados locais | Must |
+
+### v0.2
+
+| ID | Requisito | Prioridade |
+|---|---|---|
+| RF06 | Selecionar uma inscrição, várias ou todas as que podem ser canceladas | Must |
+| RF07 | Confirmar mostrando exatamente o que vai ser cancelado | Must |
+| RF08 | Pedir o cancelamento somente via RFC 8058 | Must |
+| RF09 | Registrar e mostrar o resultado de cada inscrição: solicitado, falhou ou ação manual | Must |
+
+### Depois
+
+| ID | Requisito | Prioridade |
+|---|---|---|
+| RF11 | Filtrar e ordenar as inscrições | Could |
+| RF12 | Guardar um histórico local dos pedidos de cancelamento | Could |
+| RF13 | Checar inscrições novas toda semana | Could |
+| RF17 | Identificar o tipo de conteúdo: promoção, transacional ou informativo | Could |
+
+Fica de fora por enquanto (Won't): visão da caixa por categoria, versão para celular, uso de IA, apagar mensagens ou criar filtros e outros provedores de e-mail.
+
+## Requisitos não funcionais
+
+Estes ainda são candidatos. Vou definir métricas para eles depois da prova de conceito com a Gmail API.
 
 | ID | Requisito |
 |---|---|
-| RNF01 | Menor privilégio OAuth e nenhuma coleta de senha |
-| RNF02 | Minimização de dados; nenhum conteúdo real em logs ou testes públicos |
-| RNF03 | Proteção, revogação e descarte de tokens e credenciais |
-| RNF04 | Interface responsiva durante o processamento |
-| RNF05 | Tratamento de falhas e de limites da API |
+| RNF01 | Pedir a menor permissão possível no OAuth e nunca pedir senha |
+| RNF02 | Guardar o mínimo de dados; nada de conteúdo real de e-mail em logs ou testes públicos |
+| RNF03 | Proteger, revogar e apagar tokens e credenciais |
+| RNF04 | Manter a interface respondendo enquanto a análise roda |
+| RNF05 | Tratar falhas e os limites de uso da API |
 | RNF06 | Código modular, testável e documentado |
-| RNF07 | Execução local reproduzível |
-| RNF08 | Interface acessível e confirmação clara de ações |
-| RNF09 | Segurança de requisições externas e prevenção de SSRF |
-| RNF10 | Extensibilidade para outros provedores sem complexidade prematura |
+| RNF07 | Execução local fácil de reproduzir |
+| RNF08 | Interface acessível e confirmações claras antes de qualquer ação |
+| RNF09 | Validar as requisições para links externos e evitar SSRF |
+| RNF10 | Permitir outros provedores no futuro, sem complicar o projeto antes da hora |

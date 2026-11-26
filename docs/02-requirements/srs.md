@@ -1,6 +1,6 @@
 # Requisitos
 
-Esta é a lista de requisitos funcionais com as prioridades de cada um. As regras de negócio e os critérios de aceitação dos requisitos obrigatórios ainda vão ser escritos, antes de começar a implementação.
+Esta é a lista de requisitos funcionais com as prioridades de cada um. As regras de negócio estão em [Regras de negócio](business-rules.md) e os critérios de aceitação da v0.1 em [Critérios de aceitação](acceptance-criteria.md).
 
 ## Como priorizei
 
